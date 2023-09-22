@@ -158,4 +158,4 @@
 
 # lets start the project
 
-- we will install kafka on ec2 instance and check the consumer and producer api
+- we will install kafka on ec2 instance and check the consumer and producer api 
