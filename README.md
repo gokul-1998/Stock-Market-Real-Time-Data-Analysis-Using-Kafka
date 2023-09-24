@@ -125,3 +125,37 @@
     - Default output format [None]:
 
 - we are done here, now we will be able to send the data from our local machine to s3 bucket
+
+
+- AWS glue crawler
+    - it will be used to crawl the data from s3 bucket, and then create a table in aws glue data catalog
+    - so we can directly query the data from the table, without having to write any code on top of athena 
+
+- go to AWS glue, and click on crawlers on the left hand side, and then click on add crawler
+- click in create_crawler, enter a unique name, `stock_market_crawler`, and then click on next
+- select data stores, and then select s3,and `in this account`-> browse and select the s3 bucket, and then click on next, 
+- Now select the IAM user
+    - IAM role - is the role that the crawler will use to access the s3 bucket, and create the table in the aws glue data catalog
+    - if glue wants to talk to s3 we need IAM role, IAM role will give glue the permission to access s3 bucket, and create the table in the aws glue data catalog.
+    - IF IAM role is not present
+        - open the aws console and search for IAM
+        - click on roles on the left hand side
+        - click on create role
+        - select AWS service, and then select glue as Use case service name, and then click on next
+        - For permissions, click on Administrator-Access to give full access to AWS services and resources, and then click on next
+        - Now give a Role name, as `glue-admin-access` and then click on create role
+- Now going back to Crawler, select the IAM role, and then click on next 
+- Click on Add Database
+- Give a database name, as `stock_market_db`, and then click on create
+- in the target database in creating the crawler, select the database that we just created, and then click on next
+- click on next, and then click on create Crawler
+- Now click on run crawler on the top right, just wait for the crawler to run, it will take some time, until it says 'complete'
+
+- Now in the Aws console , search for Athena, and then click on Athena, and click on launch query editor, 
+![](2023-09-24-17-20-48.png)
+- you could see the database that we created in the crawler, click on the database, and then click on tables, you could see the table that we created in the crawler, click on the table, and then click on preview table, you could see the data that we crawled from s3 bucket, and created a table in aws glue data catalog
+- if you see `no output location` error, then click on settings on the top right, and then click on query result location in our case it is our 's3 bucket we created', and then click on save, and then click on run query again, you should see the data now
+- we will be able to see 10 rows right now
+
+- Now add a delay of 1 second in the producer, and delete all the files from s3 bucket so that we can check if the crawler is working or not
+- after deleting the files, check athena and confirm that there are no rows in the table
