@@ -46,6 +46,10 @@
     - stop both the zookeeper and kafka server by pressing ctrl+C.
     - `sudo nano config/server.properties`
     - change the ip to the public ip of the ec2 machine.
+
+    - ![](2023-09-25-11-02-24.png)
+    - `PLEASE NOTE ,  IT IS ADVERTISED LISTENERS, NOT LISTENERS`
+
     - press ctrl+X, then press Y, then press enter
     - `bin/kafka-server-start.sh config/server.properties`
 
